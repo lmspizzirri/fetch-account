@@ -1,2 +1,9 @@
-services:
+version: '3'
 
+services:
+  app:
+    image: eclipse-temurin:17-jdk-alpine
+    container_name: fetch_account
+    restart: always
+    volumes:
+      - /src/microsoft_accounts.db
