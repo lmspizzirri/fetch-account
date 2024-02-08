@@ -21,7 +21,7 @@ public class FetchController {
         this.fetchService = fetchService;
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<Account> getAccount() {
         Account selectedAccount = fetchService.getAccount();
         return ResponseEntity.ok(selectedAccount);
