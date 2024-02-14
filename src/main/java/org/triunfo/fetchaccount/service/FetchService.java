@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.triunfo.fetchaccount.service.exceptions.AccountNotFoundException;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 @Service
 public class FetchService {
     private final AccountRepository accountRepository;
-    static Integer index;
+    static AtomicInteger atomicInteger = new AtomicInteger(1);
 
     @Autowired
     public FetchService (AccountRepository accountRepository) {
@@ -18,13 +20,13 @@ public class FetchService {
     }
 
     public Account getAccount() throws AccountNotFoundException {
-        Account returnedAccount = accountRepository.findById(index).
+        int index = atomicInteger.getAndUpdate(x -> {
+            if (x >= 29)
+                return 0;
+            else
+                return x+1;
+                });
+        return accountRepository.findById(index).
                 orElseThrow(() -> new AccountNotFoundException("Account Not Found"));
-        if(index == 30) {
-            index = 0;
-        } else {
-            index += 1;
-        }
-        return returnedAccount;
     }
 }
