@@ -21,8 +21,8 @@ public class FetchService {
 
     public Account getAccount() throws AccountNotFoundException {
         int index = atomicInteger.getAndUpdate(x -> {
-            if (x >= 29)
-                return 0;
+            if (x >= 30)
+                return 1;
             else
                 return x+1;
                 });
