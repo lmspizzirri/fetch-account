@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.triunfo.fetchaccount.service.exceptions.AccountNotFoundException;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -28,5 +29,13 @@ public class FetchService {
                 });
         return accountRepository.findById(index).
                 orElseThrow(() -> new AccountNotFoundException("Account Not Found"));
+    }
+
+    public List<Account> getAllAccount() {
+        return accountRepository.findAll();
+    }
+
+    public Account createAccount(Account account) {
+        return accountRepository.save(account);
     }
 }
