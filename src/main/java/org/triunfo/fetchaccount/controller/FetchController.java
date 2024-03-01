@@ -29,6 +29,7 @@ public class FetchController {
     @GetMapping
     public ResponseEntity<Account> getAccount() {
         Account selectedAccount = fetchService.getAccount();
+        System.out.println(selectedAccount);
         return ResponseEntity.ok(selectedAccount);
     }
 
