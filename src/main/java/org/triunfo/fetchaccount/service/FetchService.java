@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.triunfo.fetchaccount.service.exceptions.AccountNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -21,8 +22,9 @@ public class FetchService {
     }
 
     public Account getAccount() throws AccountNotFoundException {
+        long count = accountRepository.count();
         int index = atomicInteger.getAndUpdate(x -> {
-            if (x >= 30)
+            if (x >= count)
                 return 1;
             else
                 return x+1;
@@ -38,4 +40,20 @@ public class FetchService {
     public Account createAccount(Account account) {
         return accountRepository.save(account);
     }
+
+    public void deleteAccount(Integer id) {
+        accountRepository.deleteById(id);
+    }
+
+    public void changePassword(Integer id, String newPassword) {
+        Optional<Account> foundAccount = accountRepository.findById(id);
+        if (foundAccount.isPresent()) {
+            Account account = foundAccount.get();
+            account.setPassword(newPassword);
+            accountRepository.save(account);
+        } else {
+            throw new RuntimeException("Usuário não encontrado com ID: " + id);
+        }
+    }
 }
+

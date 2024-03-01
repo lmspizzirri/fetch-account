@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fetch_account_backend
+    volumes:
+      - /src/microsoft_accounts.db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fetch_account_frontend
+    ports:
+      - "3000:3000"
